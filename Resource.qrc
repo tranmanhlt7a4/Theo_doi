@@ -1,0 +1,15 @@
+<RCC>
+	<qresource prefix="icons">
+		<file>User.png</file>
+		<file>UserQuit.png</file>
+		<file>Question.png</file>
+		<file>Search.png</file>
+		<file>Join.png</file>
+		<file>Information.png</file>
+		<file>Documents.png</file>
+		<file>AddSubject.png</file>
+		<file>Edit.png</file>
+		<file>Export.png</file>
+		<file>LogoQt.png</file>
+	</qresource>
+</RCC>
