@@ -13,6 +13,6 @@ CuaSoXemTruoc::CuaSoXemTruoc(const QString &noiDung, QWidget* cuaSoMe) : QDialog
         lopChinh->addWidget(m_khungHienThi);
 
     setLayout(lopChinh);
-    setWindowIcon(QIcon(":/icons/Documents.png"));
+    setWindowIcon(QIcon(":/icons/icons/Documents.png"));
     setWindowTitle(tr("Nhật kí theo dõi"));
 }

@@ -1,15 +1,18 @@
 <RCC>
 	<qresource prefix="icons">
-		<file>User.png</file>
-		<file>UserQuit.png</file>
-		<file>Question.png</file>
-		<file>Search.png</file>
-		<file>Join.png</file>
-		<file>Information.png</file>
-		<file>Documents.png</file>
-		<file>AddSubject.png</file>
-		<file>Edit.png</file>
-		<file>Export.png</file>
-		<file>LogoQt.png</file>
+		<file>icons/User.png</file>
+		<file>icons/UserQuit.png</file>
+		<file>icons/Question.png</file>
+		<file>icons/Search.png</file>
+		<file>icons/Join.png</file>
+		<file>icons/Information.png</file>
+		<file>icons/Documents.png</file>
+		<file>icons/AddSubject.png</file>
+		<file>icons/Edit.png</file>
+		<file>icons/Export.png</file>
+		<file>icons/LogoQt.png</file>
+		<file>icons/AllJoin.ico</file>
+		<file>icons/AllOut.ico</file>
+		<file>icons/Timetable.ico</file>
 	</qresource>
 </RCC>

@@ -1,5 +1,4 @@
 #include "CuaSoChinh.h"
-#include "CuaSoXemTruoc.h"
 
 CuaSoQuanLi::CuaSoQuanLi() : QMainWindow(nullptr) {
 
@@ -12,11 +11,17 @@ CuaSoQuanLi::CuaSoQuanLi() : QMainWindow(nullptr) {
     //Tạo thông tin ngày tháng theo dõi
     khoiTaoNgayTheoDoi();
 
-    setWindowIcon(QIcon(":/icons/User.png"));
+    //Khởi tạo các cửa sổ
+    m_cuaSoThoiKhoaBieu = new CuaSoThoiKhoaBieu(this);
+    m_cuaSoXemTruoc = new CuaSoXemTruoc(m_thongTin, this);
+
+    setWindowIcon(QIcon(":/icons/icons/User.png"));
     setWindowTitle(tr("Trình theo dõi"));
     setMinimumSize(500, 300);
 }
 
+
+//Các phương thức private khởi tạo giao diện
 void CuaSoQuanLi::khoiTaoGiaoDien() {
 
     //Lấy thông tin về danh sách học sinh cho vào mô hình chưa tham gia
@@ -40,20 +45,34 @@ void CuaSoQuanLi::khoiTaoGiaoDien() {
 
     //Các nút chức năng
     m_roiKhoi = new QPushButton(tr("Rời khỏi"));
-        m_roiKhoi->setIcon(QIcon(":/icons/UserQuit.png"));
+        m_roiKhoi->setIcon(QIcon(":/icons/icons/UserQuit.png"));
         m_roiKhoi->setToolTip(tr("Đánh dấu người đang chọn là đã thoát"));
         m_roiKhoi->setCursor(Qt::PointingHandCursor);
         m_roiKhoi->setVisible(false);
 
     m_thamGia = new QPushButton(tr("Tham gia"));
-        m_thamGia->setIcon(QIcon(":/icons/Join.png"));
+        m_thamGia->setIcon(QIcon(":/icons/icons/Join.png"));
         m_thamGia->setToolTip(tr("Đánh dấu một người đang chọn là đã tham gia"));
         m_thamGia->setCursor(Qt::PointingHandCursor);
         m_thamGia->setVisible(false);
 
+    m_thamGiaHet = new QPushButton(tr("Tất cả tham gia"));
+        m_thamGiaHet->setIcon(QIcon(":/icons/icons/AllJoin.ico"));
+        m_thamGiaHet->setToolTip(tr("Tất cả học sinh tham gia"));
+        m_thamGiaHet->setCursor(Qt::PointingHandCursor);
+        m_thamGiaHet->setVisible(true);
+
+    m_roiKhoiHet = new QPushButton(tr("Rời khỏi hết"));
+        m_roiKhoiHet->setIcon(QIcon(":/icons/icons/AllOut.ico"));
+        m_roiKhoiHet->setToolTip(tr("Tất cả học sinh đã rời khỏi"));
+        m_roiKhoiHet->setCursor(Qt::PointingHandCursor);
+        m_roiKhoiHet->setVisible(false);
+
     QHBoxLayout *lopSapXepCacNut = new QHBoxLayout();
         lopSapXepCacNut->addWidget(m_thamGia);
         lopSapXepCacNut->addWidget(m_roiKhoi);
+        lopSapXepCacNut->addWidget(m_thamGiaHet);
+        lopSapXepCacNut->addWidget(m_roiKhoiHet);
         lopSapXepCacNut->setAlignment(Qt::AlignCenter);
 
     QVBoxLayout *lopChinh = new QVBoxLayout();
@@ -71,6 +90,8 @@ void CuaSoQuanLi::khoiTaoGiaoDien() {
 
     connect(m_thamGia, SIGNAL(clicked()), this, SLOT(anNutThamGia()));
     connect(m_roiKhoi, SIGNAL(clicked()), this, SLOT(anNutRoiKhoi()));
+    connect(m_thamGiaHet, SIGNAL(clicked()), this, SLOT(tatCaThamGia()));
+    connect(m_roiKhoiHet, SIGNAL(clicked()), this, SLOT(tatCaRoiKhoi()));
     connect(m_khungNhinNguoiDungDangThamGia, SIGNAL(clicked(const QModelIndex &)), this, SLOT(clickChonKhungDangThamGia()));
     connect(m_khungNhinNguoiDungChuaThamGia, SIGNAL(clicked(const QModelIndex &)), this, SLOT(clickChonKhungChuaThamGia()));
 }
@@ -79,10 +100,10 @@ void CuaSoQuanLi::khoiTaoThanhDanhMuc() {
     //Các thao tác menu tệp
     m_xemTruoc = new QAction(tr("Xem trước file theo dõi"));
         m_xemTruoc->setShortcut(QKeySequence(tr("Ctrl+P", "Phím tắt xem trước file")));
-        m_xemTruoc->setIcon(QIcon(":/icons/Documents.png"));
+        m_xemTruoc->setIcon(QIcon(":/icons/icons/Documents.png"));
 
     m_xuatTep = new QAction(tr("Xuất"));
-        m_xuatTep->setIcon(QIcon(":/icons/Export.png"));
+        m_xuatTep->setIcon(QIcon(":/icons/icons/Export.png"));
         m_xuatTep->setShortcut(QKeySequence(tr("Ctrl+E", "Phím tắt xuất file")));
 
     //Menu Tệp
@@ -95,17 +116,23 @@ void CuaSoQuanLi::khoiTaoThanhDanhMuc() {
     connect(m_xuatTep, SIGNAL(triggered(bool)), this, SLOT(xuatFile()));
 
 
+    //Action menu chức năng
+    QAction *suaThoiKhoaBieu = new QAction(tr("Sửa thời khóa biểu"));
+        suaThoiKhoaBieu->setIcon(QIcon(":/icons/icons/Timetable.ico"));
+
     //Menu Chức năng
     QMenu *menuChucNang = menuBar()->addMenu(tr("Chức năng"));
+        menuChucNang->addAction(suaThoiKhoaBieu);
 
+    connect(suaThoiKhoaBieu, SIGNAL(triggered(bool)), this, SLOT(suaThoiKhoaBieu()));
 
     //Action menu trợ giúp
     m_veUngDung = new QAction(tr("Về ứng dụng"));
-        m_veUngDung->setIcon(QIcon(":/icons/Information.png"));
+        m_veUngDung->setIcon(QIcon(":/icons/icons/Information.png"));
         m_veUngDung->setShortcut(QKeySequence(tr("Ctrl+B", "Phím tắt thông tin ứng dụng")));
 
     m_veQt = new QAction(tr("Về Qt"));
-        m_veQt->setIcon(QIcon(":/icons/LogoQt"));
+        m_veQt->setIcon(QIcon(":/icons/icons/LogoQt"));
         m_veQt->setShortcut(QKeySequence(tr("Ctrl+Alt+B", "Phím tắt thông tin Qt")));
 
     //Menu Trợ giúp
@@ -125,6 +152,7 @@ void CuaSoQuanLi::khoiTaoThanhTrangThai() {
     statusBar()->showMessage(tr("Chào mừng"));
 }
 
+//Phương thức private đọc
 void CuaSoQuanLi::layThongTinDanhSach() {
 
     QFile danhSach("Member.txt");
@@ -162,10 +190,14 @@ void CuaSoQuanLi::anNutRoiKhoi() {
 void CuaSoQuanLi::xuatFile() {
     QString duongDan = QFileDialog::getSaveFileName(this, tr("Lưu file"), "D:", tr("Text Documents (*.txt)"));
 
+    if(duongDan.right(4) != ".txt") {
+        return;
+    }
+
     QFile banGhi(duongDan);
 
     if(!banGhi.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::critical(this, tr("Lỗi"), tr("Không thể xuất file.\n<b>Lưu ý:</b> Nếu lưu file ở ổ C:. Vui lòng chạy chương trình bằng quyền quản trị viên!"));
+        QMessageBox::critical(this, tr("Lỗi"), tr("Không thể xuất file.<br><b>Lưu ý:</b> Nếu lưu file ở ổ C:. Vui lòng chạy chương trình bằng quyền quản trị viên!"));
         return;
     }
 
@@ -177,8 +209,11 @@ void CuaSoQuanLi::xuatFile() {
 }
 
 void CuaSoQuanLi::xemTruocFile() {
-    CuaSoXemTruoc cuaSo(m_thongTin, this);
-    cuaSo.exec();
+    m_cuaSoXemTruoc->exec();
+}
+
+void CuaSoQuanLi::suaThoiKhoaBieu() {
+    m_cuaSoThoiKhoaBieu->exec();
 }
 
 void CuaSoQuanLi::clickChonKhungChuaThamGia() {
@@ -250,8 +285,26 @@ void CuaSoQuanLi::thoat() {
 }
 
 void CuaSoQuanLi::thongTinUngDung() {
-    QString thongTin = tr("<i>Ứng dụng theo dõi việc tham gia học trực tuyến của học sinh!</i>");
-    thongTin += tr("<br><i>Được hoàn thành ngày dd tháng mm năm yyyy</i>");
-    thongTin += tr("<br><i>Mã nguồn dự án có thể được tải về miễn phí <a href=\"https://github.com/tranmanhlt7a4/Theo_doi\">tại đây</a>.</i>");
+    QString thongTin = tr("Ứng dụng theo dõi việc tham gia học trực tuyến của học sinh!");
+    thongTin += tr("<br>Được hoàn thành ngày dd tháng mm năm yyyy");
+    thongTin += tr("<br>Mã nguồn dự án có thể được tải về miễn phí <a href=\"https://github.com/tranmanhlt7a4/Theo_doi\">tại đây</a>.");
     QMessageBox::information(this, tr("Về ứng dụng này"), thongTin);
+}
+
+void CuaSoQuanLi::tatCaThamGia() {
+    m_moHinhNguoiDungDangThamGia->setStringList(m_moHinhNguoiDungChuaThamGia->stringList());
+    m_moHinhNguoiDungChuaThamGia->setStringList(QStringList());
+    m_thamGiaHet->setVisible(false);
+    m_roiKhoiHet->setVisible(true);
+    m_roiKhoi->setVisible(false);
+    m_thamGia->setVisible(false);
+}
+
+void CuaSoQuanLi::tatCaRoiKhoi() {
+    m_moHinhNguoiDungChuaThamGia->setStringList(m_moHinhNguoiDungDangThamGia->stringList());
+    m_moHinhNguoiDungDangThamGia->setStringList(QStringList());
+    m_thamGiaHet->setVisible(true);
+    m_roiKhoiHet->setVisible(false);
+    m_roiKhoi->setVisible(false);
+    m_thamGia->setVisible(false);
 }

@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ThoiKhoaBieu</class>
+ <widget class="QDialog" name="ThoiKhoaBieu">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>486</width>
+    <height>366</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Thời khóa biểu</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../icon/Timetable.ico</normaloff>../../icon/Timetable.ico</iconset>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="font">
+        <font>
+         <pointsize>26</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Thời khóa biểu</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <layout class="QFormLayout" name="lopSapXepTietHoc">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Tiết 1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="m_tiet1">
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Anh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Toán</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Lí</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Địa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sử</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sinh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Hóa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Quốc phòng</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GDCD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Văn</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Nhật</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Công nghệ</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Tiết 2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Tiết 3</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="m_tiet3">
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Anh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Toán</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Lí</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Địa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sử</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sinh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Hóa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Quốc phòng</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GDCD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Văn</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Nhật</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Công nghệ</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Tiết 4</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="m_tiet2">
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Anh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Toán</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Lí</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Địa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sử</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sinh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Hóa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Quốc phòng</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GDCD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Văn</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Nhật</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Công nghệ</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="m_tiet4">
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Nhật</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Công nghệ</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Anh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Toán</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Lí</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Hóa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Văn</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GDCD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Quốc phòng</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Địa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sử</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sinh</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Tiết 5</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="m_tiet5">
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Anh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Toán</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Lí</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Hóa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sinh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Văn</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sinh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sử</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Quốc phòng</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GDCD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Nhật</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Công nghệ</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>../../icon/Timetable.ico</pixmap>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_luu">
+       <property name="text">
+        <string>Lưu</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../icon/Save.ico</normaloff>../../icon/Save.ico</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_thoat">
+       <property name="text">
+        <string>Thoát</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../icon/Quit_v1.ico</normaloff>../../icon/Quit_v1.ico</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

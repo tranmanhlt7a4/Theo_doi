@@ -3,6 +3,8 @@
 
 #include <QtWidgets>
 #include <QApplication>
+#include "CuaSoXemTruoc.h"
+#include "ThoiKhoaBieu.h"
 
 class CuaSoQuanLi : public QMainWindow
 {
@@ -21,7 +23,10 @@ private slots:
     void clickChonKhungDangThamGia();
     void clickChonKhungChuaThamGia();
     void xemTruocFile();
+    void suaThoiKhoaBieu();
     void thongTinUngDung();
+    void tatCaThamGia();
+    void tatCaRoiKhoi();
 
 private:
     void khoiTaoGiaoDien();
@@ -52,6 +57,12 @@ private:
 
     QPushButton *m_roiKhoi; //Nút chọn khi ai đó thoát
     QPushButton *m_thamGia; //Nút chọn khi có người tham gia
+    QPushButton *m_thamGiaHet; //Nút chọn khi mọi người vào hết
+    QPushButton *m_roiKhoiHet; //Nút chọn khi mọi người rời khỏi hết
+
+    //Các cửa sổ
+    CuaSoThoiKhoaBieu *m_cuaSoThoiKhoaBieu;
+    CuaSoXemTruoc *m_cuaSoXemTruoc;
 };
 
 
