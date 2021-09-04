@@ -10,8 +10,8 @@ class CuaSoThoiKhoaBieu : public QDialog, private Ui::ThoiKhoaBieu
 
 public:
     CuaSoThoiKhoaBieu(QWidget* cuaSoMe);
-    QList<QString> cacTiet();
-    __int8 soTiet();
+    QList<QString> cacTiet() const;
+    int doDai() const;
 
 private slots:
     void anNutLuu();
@@ -22,7 +22,7 @@ private:
     void datLai();
 
     QList<QString> m_cacTiet;
-    __int8 m_soTiet;
+    int m_doDai; //Độ dài của các tiết học tính bằng kí tự
     bool m_daLuu;
 };
 

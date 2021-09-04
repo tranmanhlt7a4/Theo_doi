@@ -13,9 +13,6 @@ class CuaSoQuanLi : public QMainWindow
 public:
     CuaSoQuanLi();
 
-public slots:
-    void thoat(); //SLot thực hiện lưu file khi thoát đề phòng mất dữ liệu
-
 private slots:
     void anNutThamGia();
     void anNutRoiKhoi();
@@ -25,8 +22,6 @@ private slots:
     void xemTruocFile();
     void suaThoiKhoaBieu();
     void thongTinUngDung();
-    void tatCaThamGia();
-    void tatCaRoiKhoi();
 
 private:
     void khoiTaoGiaoDien();
@@ -35,6 +30,7 @@ private:
     void khoiTaoThanhTrangThai();
     void layThongTinDanhSach();
     void khoiTaoNgayTheoDoi();
+    void taoThongTinTiet();
 
     //Các Action của menu tệp
     QAction *m_xemTruoc;
@@ -47,18 +43,25 @@ private:
     QAction *m_veUngDung;
     QAction *m_veQt;
 
+    __int8 m_vang;
+    __int8 m_gianDoan;
+
+    QList<QString> m_danhSachThamGia;
+    QList<QString> m_danhSachChuaThamGia;
+    QList<QString> m_danhSachGianDoan;
+
+    QList<QString> m_cacTiet;
+
     QStringListModel *m_moHinhNguoiDungDangThamGia; //Lưu trữ mô hình người dùng đang tham gia
     QListView *m_khungNhinNguoiDungDangThamGia; //Khung nhìn người dùng đang tham gia
 
     QStringListModel *m_moHinhNguoiDungChuaThamGia; //Lưu trữ mô hình người dùng chưa tham gia
     QListView *m_khungNhinNguoiDungChuaThamGia; //Khung nhìn người dùng chưa tham gia
 
-    QString m_thongTin; //Lưu trữ thông tin để xuất ra file
+    QString m_noiDung; //Lưu trữ thông tin để xuất ra file
 
     QPushButton *m_roiKhoi; //Nút chọn khi ai đó thoát
     QPushButton *m_thamGia; //Nút chọn khi có người tham gia
-    QPushButton *m_thamGiaHet; //Nút chọn khi mọi người vào hết
-    QPushButton *m_roiKhoiHet; //Nút chọn khi mọi người rời khỏi hết
 
     //Các cửa sổ
     CuaSoThoiKhoaBieu *m_cuaSoThoiKhoaBieu;

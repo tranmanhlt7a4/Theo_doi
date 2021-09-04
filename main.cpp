@@ -10,8 +10,5 @@ int main(int argc, char* argv[])
     CuaSoQuanLi cuaSo;
     cuaSo.show();
 
-    QObject::connect(qApp, SIGNAL(aboutToQuit()), &cuaSo, SLOT(thoat()));
     return app.exec();
-
-
 }

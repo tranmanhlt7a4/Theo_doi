@@ -14,5 +14,7 @@
 		<file>icons/AllJoin.ico</file>
 		<file>icons/AllOut.ico</file>
 		<file>icons/Timetable.ico</file>
+		<file>icons/Quit_v1.ico</file>
+		<file>icons/Save.ico</file>
 	</qresource>
 </RCC>

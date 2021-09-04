@@ -13,13 +13,14 @@ CuaSoQuanLi::CuaSoQuanLi() : QMainWindow(nullptr) {
 
     //Khởi tạo các cửa sổ
     m_cuaSoThoiKhoaBieu = new CuaSoThoiKhoaBieu(this);
-    m_cuaSoXemTruoc = new CuaSoXemTruoc(m_thongTin, this);
+    m_cuaSoXemTruoc = new CuaSoXemTruoc(m_noiDung, this);
+
+    suaThoiKhoaBieu();
 
     setWindowIcon(QIcon(":/icons/icons/User.png"));
     setWindowTitle(tr("Trình theo dõi"));
     setMinimumSize(500, 300);
 }
-
 
 //Các phương thức private khởi tạo giao diện
 void CuaSoQuanLi::khoiTaoGiaoDien() {
@@ -30,11 +31,12 @@ void CuaSoQuanLi::khoiTaoGiaoDien() {
     //Khung nhìn học sinh đã tham gia
     QLabel *nhanDanhSachThamGia = new QLabel(tr("Danh sách học sinh đang tham gia:"));
 
-    m_moHinhNguoiDungDangThamGia = new QStringListModel(QStringList(tr("Chưa có học sinh nào tham gia!")));
+    m_moHinhNguoiDungDangThamGia = new QStringListModel(QStringList());
 
     m_khungNhinNguoiDungDangThamGia = new QListView();
         m_khungNhinNguoiDungDangThamGia->setModel(m_moHinhNguoiDungDangThamGia);
         m_khungNhinNguoiDungDangThamGia->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        m_khungNhinNguoiDungDangThamGia->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     //Khung nhìn học sinh chưa tham gia
     QLabel *nhanDanhSachChuaThamGia = new QLabel(tr("Danh sách học sinh chưa tham gia:"));
@@ -42,6 +44,7 @@ void CuaSoQuanLi::khoiTaoGiaoDien() {
     m_khungNhinNguoiDungChuaThamGia = new QListView();
         m_khungNhinNguoiDungChuaThamGia->setModel(m_moHinhNguoiDungChuaThamGia);
         m_khungNhinNguoiDungChuaThamGia->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        m_khungNhinNguoiDungChuaThamGia->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     //Các nút chức năng
     m_roiKhoi = new QPushButton(tr("Rời khỏi"));
@@ -56,23 +59,9 @@ void CuaSoQuanLi::khoiTaoGiaoDien() {
         m_thamGia->setCursor(Qt::PointingHandCursor);
         m_thamGia->setVisible(false);
 
-    m_thamGiaHet = new QPushButton(tr("Tất cả tham gia"));
-        m_thamGiaHet->setIcon(QIcon(":/icons/icons/AllJoin.ico"));
-        m_thamGiaHet->setToolTip(tr("Tất cả học sinh tham gia"));
-        m_thamGiaHet->setCursor(Qt::PointingHandCursor);
-        m_thamGiaHet->setVisible(true);
-
-    m_roiKhoiHet = new QPushButton(tr("Rời khỏi hết"));
-        m_roiKhoiHet->setIcon(QIcon(":/icons/icons/AllOut.ico"));
-        m_roiKhoiHet->setToolTip(tr("Tất cả học sinh đã rời khỏi"));
-        m_roiKhoiHet->setCursor(Qt::PointingHandCursor);
-        m_roiKhoiHet->setVisible(false);
-
     QHBoxLayout *lopSapXepCacNut = new QHBoxLayout();
         lopSapXepCacNut->addWidget(m_thamGia);
         lopSapXepCacNut->addWidget(m_roiKhoi);
-        lopSapXepCacNut->addWidget(m_thamGiaHet);
-        lopSapXepCacNut->addWidget(m_roiKhoiHet);
         lopSapXepCacNut->setAlignment(Qt::AlignCenter);
 
     QVBoxLayout *lopChinh = new QVBoxLayout();
@@ -90,8 +79,6 @@ void CuaSoQuanLi::khoiTaoGiaoDien() {
 
     connect(m_thamGia, SIGNAL(clicked()), this, SLOT(anNutThamGia()));
     connect(m_roiKhoi, SIGNAL(clicked()), this, SLOT(anNutRoiKhoi()));
-    connect(m_thamGiaHet, SIGNAL(clicked()), this, SLOT(tatCaThamGia()));
-    connect(m_roiKhoiHet, SIGNAL(clicked()), this, SLOT(tatCaRoiKhoi()));
     connect(m_khungNhinNguoiDungDangThamGia, SIGNAL(clicked(const QModelIndex &)), this, SLOT(clickChonKhungDangThamGia()));
     connect(m_khungNhinNguoiDungChuaThamGia, SIGNAL(clicked(const QModelIndex &)), this, SLOT(clickChonKhungChuaThamGia()));
 }
@@ -173,18 +160,102 @@ void CuaSoQuanLi::layThongTinDanhSach() {
     }
 
     if(ten.isEmpty()) {
-        ten << "Không thể đọc file!";
+        ten << "";
     }
 
+    m_vang = ten.size();
+    m_gianDoan = 0;
+    m_danhSachChuaThamGia.append(ten);
     m_moHinhNguoiDungChuaThamGia = new QStringListModel(ten);
 }
 
-void CuaSoQuanLi::anNutThamGia() {
+//private
+void CuaSoQuanLi::taoThongTinTiet() {
+    static bool lanDau = true;
 
+    if(lanDau) {
+        QString m_noiDung;
+
+        m_noiDung += "\n\n";
+        m_noiDung += "Số tiết: " + QString::number(m_cacTiet.size()) + "\n";
+        //Ghi các tiết
+        for(int i = 0; i < m_cacTiet.size(); i++) {
+            m_noiDung += "Tiết " + QString::number(i + 1) + ": " + m_cacTiet.at(i) + "\n";
+        }
+
+        m_noiDung += "\n\n";
+    }
+}
+
+//slot
+void CuaSoQuanLi::anNutThamGia() {
+    QItemSelectionModel *luaChon = m_khungNhinNguoiDungChuaThamGia->selectionModel();
+    QModelIndexList danhSachDuocChon = luaChon->selectedIndexes();
+
+
+    for(int i = 0; i < danhSachDuocChon.size(); i++) {
+        QVariant doiTuongDuocChon = m_moHinhNguoiDungChuaThamGia->data(danhSachDuocChon[i], Qt::DisplayRole);
+
+        bool hocGianDoan = false;
+
+        //Kiểm tra xem có phải là học gián đoạn hay không
+        for(int i = 0; i < m_danhSachGianDoan.size(); i++) {
+            if(m_danhSachGianDoan[i] == doiTuongDuocChon.toString()) {
+                hocGianDoan = true;
+                break;
+            }
+        }
+
+        //Thêm vào danh sách đang tham gia
+        m_danhSachThamGia << doiTuongDuocChon.toString();
+
+        //Xóa khỏi danh sách chưa tham gia;
+        m_danhSachChuaThamGia.removeOne(doiTuongDuocChon.toString());
+
+        if(!hocGianDoan) {
+            m_vang--;
+        }
+    }
+
+    //Đặt lại mô hình
+    m_moHinhNguoiDungDangThamGia->setStringList(m_danhSachThamGia);
+    m_moHinhNguoiDungChuaThamGia->setStringList(m_danhSachChuaThamGia);
 }
 
 void CuaSoQuanLi::anNutRoiKhoi() {
+    QItemSelectionModel *luaChon = m_khungNhinNguoiDungDangThamGia->selectionModel();
+    QModelIndexList danhSachDuocChon = luaChon->selectedIndexes();
 
+
+    for(int i = 0; i < danhSachDuocChon.size(); i++) {
+        QVariant doiTuongDuocChon = m_moHinhNguoiDungDangThamGia->data(danhSachDuocChon[i], Qt::DisplayRole);
+
+        bool daCo = false;
+
+        //Kiểm tra xem có trong danh sách học gián đoạn hay không
+        for(int i = 0; i < m_danhSachGianDoan.size(); i++) {
+            if(m_danhSachGianDoan[i] == doiTuongDuocChon.toString()) {
+                daCo = true;
+                break;
+            }
+        }
+
+        if(!daCo) {
+            //Thêm vào danh sách học gián đoạn
+            m_danhSachGianDoan << doiTuongDuocChon.toString();
+            m_gianDoan++;
+        }
+
+        //Thêm vào danh sách chưa tham gia
+        m_danhSachChuaThamGia << doiTuongDuocChon.toString();
+
+        //Xóa khỏi danh sách tham gia
+        m_danhSachThamGia.removeOne(doiTuongDuocChon.toString());
+    }
+
+    //Đặt lại mô hình
+    m_moHinhNguoiDungChuaThamGia->setStringList(m_danhSachChuaThamGia);
+    m_moHinhNguoiDungDangThamGia->setStringList(m_danhSachThamGia);
 }
 
 void CuaSoQuanLi::xuatFile() {
@@ -203,17 +274,26 @@ void CuaSoQuanLi::xuatFile() {
 
     QTextStream out(&banGhi);
 
-    out << m_thongTin;
+    out << m_noiDung;
 
     statusBar()->showMessage(tr("Đã lưu tệp"));
 }
 
 void CuaSoQuanLi::xemTruocFile() {
+
+    m_noiDung += tr("Vắng: ") + QString::number(m_vang) + "\n";
+    m_noiDung += tr("Học gián đoạn: ") + QString::number(m_gianDoan) + "\n";
+
+    m_cuaSoXemTruoc->setNoiDung(m_noiDung);
     m_cuaSoXemTruoc->exec();
+    m_noiDung = m_cuaSoXemTruoc->noiDungHienThi();
 }
 
 void CuaSoQuanLi::suaThoiKhoaBieu() {
     m_cuaSoThoiKhoaBieu->exec();
+    m_cacTiet = m_cuaSoThoiKhoaBieu->cacTiet();
+
+    taoThongTinTiet();
 }
 
 void CuaSoQuanLi::clickChonKhungChuaThamGia() {
@@ -267,21 +347,7 @@ void CuaSoQuanLi::khoiTaoNgayTheoDoi() {
 
     ngayThangTV += ngayThangTA.right(ngayThangTA.size() - 5);
 
-    m_thongTin = ngayThangTV + "\n";
-}
-
-void CuaSoQuanLi::thoat() {
-    QFile temp("D:/temp.txt");
-
-    if(temp.open(QIODevice::WriteOnly))
-    {
-        QTextStream out(&temp);
-        out << m_thongTin;
-    }
-    else
-    {
-        return;
-    }
+    m_noiDung = ngayThangTV + "\n";
 }
 
 void CuaSoQuanLi::thongTinUngDung() {
@@ -291,20 +357,3 @@ void CuaSoQuanLi::thongTinUngDung() {
     QMessageBox::information(this, tr("Về ứng dụng này"), thongTin);
 }
 
-void CuaSoQuanLi::tatCaThamGia() {
-    m_moHinhNguoiDungDangThamGia->setStringList(m_moHinhNguoiDungChuaThamGia->stringList());
-    m_moHinhNguoiDungChuaThamGia->setStringList(QStringList());
-    m_thamGiaHet->setVisible(false);
-    m_roiKhoiHet->setVisible(true);
-    m_roiKhoi->setVisible(false);
-    m_thamGia->setVisible(false);
-}
-
-void CuaSoQuanLi::tatCaRoiKhoi() {
-    m_moHinhNguoiDungChuaThamGia->setStringList(m_moHinhNguoiDungDangThamGia->stringList());
-    m_moHinhNguoiDungDangThamGia->setStringList(QStringList());
-    m_thamGiaHet->setVisible(true);
-    m_roiKhoiHet->setVisible(false);
-    m_roiKhoi->setVisible(false);
-    m_thamGia->setVisible(false);
-}
