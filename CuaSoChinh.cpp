@@ -8,12 +8,9 @@ CuaSoQuanLi::CuaSoQuanLi() : QMainWindow(nullptr) {
     khoiTaoThanhCongCu();
     khoiTaoThanhTrangThai();
 
-    //Tạo thông tin ngày tháng theo dõi
-    khoiTaoNgayTheoDoi();
-
     //Khởi tạo các cửa sổ
     m_cuaSoThoiKhoaBieu = new CuaSoThoiKhoaBieu(this);
-    m_cuaSoXemTruoc = new CuaSoXemTruoc(m_noiDung, this);
+    m_cuaSoXemTruoc = new CuaSoXemTruoc("", this);
 
     suaThoiKhoaBieu();
 
@@ -139,7 +136,7 @@ void CuaSoQuanLi::khoiTaoThanhTrangThai() {
     statusBar()->showMessage(tr("Chào mừng"));
 }
 
-//Phương thức private đọc
+//Phương thức private đọc thông tin thành viên
 void CuaSoQuanLi::layThongTinDanhSach() {
 
     QFile danhSach("Member.txt");
@@ -156,39 +153,113 @@ void CuaSoQuanLi::layThongTinDanhSach() {
             QString tenDocDuoc;
             tenDocDuoc = in.readLine();
             ten << tenDocDuoc;
+			m_danhSachThanhVien << tenDocDuoc;
         }
     }
 
     if(ten.isEmpty()) {
         ten << "";
+		m_danhSachThanhVien << "";
+		m_soThanhVien = 0;
     }
 
     m_vang = ten.size();
     m_gianDoan = 0;
+	m_soThanhVien = m_danhSachThanhVien.size();
+	
+    m_danhSachVang.append(ten);
+
     m_danhSachChuaThamGia.append(ten);
     m_moHinhNguoiDungChuaThamGia = new QStringListModel(ten);
 }
 
-//private
-void CuaSoQuanLi::taoThongTinTiet() {
-    static bool lanDau = true;
+//Phương thức private tạo các thông tin
+QString CuaSoQuanLi::taoThongTinTiet() {
 
-    if(lanDau) {
-        QString m_noiDung;
+    QString thongTinTiet;
 
-        m_noiDung += "\n\n";
-        m_noiDung += "Số tiết: " + QString::number(m_cacTiet.size()) + "\n";
-        //Ghi các tiết
-        for(int i = 0; i < m_cacTiet.size(); i++) {
-            m_noiDung += "Tiết " + QString::number(i + 1) + ": " + m_cacTiet.at(i) + "\n";
-        }
-
-        m_noiDung += "\n\n";
+    thongTinTiet += "\n\n";
+    thongTinTiet += tr("Số tiết: ") + QString::number(m_cuaSoThoiKhoaBieu->cacTiet().size()) + "\n";
+    //Ghi các tiết
+    for(int i = 0; i < m_cuaSoThoiKhoaBieu->cacTiet().size(); i++) {
+        thongTinTiet += tr("Tiết ") + QString::number(i + 1) + ": " + m_cuaSoThoiKhoaBieu->cacTiet().at(i) + "\n";
     }
+    return thongTinTiet;
 }
 
-//slot
+QString CuaSoQuanLi::taoNgayTheoDoi() {
+    QDate ngayThang;
+
+    QString ngayThangTA = ngayThang.currentDate().toString(tr("ddd, ngày dd tháng MM năm yyyy"));
+    QString ngayThangTV;
+
+    if(ngayThangTA.left(3) == tr("Mon"))
+    {
+        ngayThangTV += tr("Thứ hai, ");
+    }
+    else if (ngayThangTA.left(3) == tr("Tue")) {
+        ngayThangTV += tr("Thứ ba, ");
+    }
+    else if (ngayThangTA.left(3) == tr("Wed")) {
+        ngayThangTV += tr("Thứ tư, ");
+    }
+    else if (ngayThangTA.left(3) == tr("Thu")) {
+        ngayThangTV += tr("Thứ năm, ");
+    }
+    else if (ngayThangTA.left(3) == tr("Fri")) {
+        ngayThangTV += tr("Thứ sáu, ");
+    }
+    else if (ngayThangTA.left(3) == tr("Sat")) {
+        ngayThangTV += tr("Thứ bảy, ");
+    }
+    else if (ngayThangTA.left(3) == tr("Sun")) {
+        ngayThangTV += tr("Chủ nhật, ");
+    }
+
+    ngayThangTV += ngayThangTA.right(ngayThangTA.size() - 5);
+
+    return ngayThangTV;
+}
+
+QString CuaSoQuanLi::taoThongTinThamGia() {
+    QString thongTinThamGia;
+
+    thongTinThamGia += "\n\nVắng: " + QString::number(m_vang) + "\n";
+
+    if(m_vang != 0) {
+        //Thêm thông tin các thành viên vắng mặt
+        thongTinThamGia += "Các thành viên vắng (Không tham gia từ đầu đến cuối):\n";
+        for(int i = 0; i < m_danhSachVang.size(); i++) {
+            thongTinThamGia += m_danhSachVang[i] + "\n";
+        }
+    }
+	
+	//Thêm các thành viên học gián đoạn
+    thongTinThamGia += "\nTham gia gián đoạn (Có vào học nhưng thoát sớm): " + QString::number(m_gianDoan) + "\n";
+
+    if(m_gianDoan != 0) {
+        thongTinThamGia += "Các thành viên học gián đoạn:\n";
+        for(int i = 0; i < m_danhSachGianDoan.size(); i++) {
+            thongTinThamGia += m_danhSachGianDoan[i] + "\n";
+        }
+    }
+	return thongTinThamGia;
+}
+
+QString CuaSoQuanLi::taoThongTinCacThanhVien() {
+	QString thongTinThanhVien = "\n\n";
+	
+    thongTinThanhVien += tr("Tổ ") + m_cuaSoThoiKhoaBieu->to() + tr(" có %n thành viên\n", "", m_soThanhVien);
+	for(int i = 0; i < m_soThanhVien; i++) {
+		thongTinThanhVien += m_danhSachThanhVien[i] + "\n";
+	}
+	
+	return thongTinThanhVien;
+}
+
+//Các slot
 void CuaSoQuanLi::anNutThamGia() {
+
     QItemSelectionModel *luaChon = m_khungNhinNguoiDungChuaThamGia->selectionModel();
     QModelIndexList danhSachDuocChon = luaChon->selectedIndexes();
 
@@ -214,6 +285,7 @@ void CuaSoQuanLi::anNutThamGia() {
 
         if(!hocGianDoan) {
             m_vang--;
+            m_danhSachVang.removeOne(doiTuongDuocChon.toString());
         }
     }
 
@@ -258,7 +330,7 @@ void CuaSoQuanLi::anNutRoiKhoi() {
     m_moHinhNguoiDungDangThamGia->setStringList(m_danhSachThamGia);
 }
 
-void CuaSoQuanLi::xuatFile() {
+void CuaSoQuanLi::xuatFile()  {
     QString duongDan = QFileDialog::getSaveFileName(this, tr("Lưu file"), "D:", tr("Text Documents (*.txt)"));
 
     if(duongDan.right(4) != ".txt") {
@@ -274,26 +346,20 @@ void CuaSoQuanLi::xuatFile() {
 
     QTextStream out(&banGhi);
 
+    m_noiDung = taoNgayTheoDoi() + taoThongTinCacThanhVien() + taoThongTinTiet() + taoThongTinThamGia() + "\n\nGhi chú: \n" + m_cuaSoXemTruoc->ghiChu();
+
     out << m_noiDung;
 
     statusBar()->showMessage(tr("Đã lưu tệp"));
 }
 
 void CuaSoQuanLi::xemTruocFile() {
-
-    m_noiDung += tr("Vắng: ") + QString::number(m_vang) + "\n";
-    m_noiDung += tr("Học gián đoạn: ") + QString::number(m_gianDoan) + "\n";
-
-    m_cuaSoXemTruoc->setNoiDung(m_noiDung);
+    m_cuaSoXemTruoc->setNoiDungHienThi(taoNgayTheoDoi() + taoThongTinCacThanhVien() + taoThongTinTiet() + taoThongTinThamGia());
     m_cuaSoXemTruoc->exec();
-    m_noiDung = m_cuaSoXemTruoc->noiDungHienThi();
 }
 
 void CuaSoQuanLi::suaThoiKhoaBieu() {
     m_cuaSoThoiKhoaBieu->exec();
-    m_cacTiet = m_cuaSoThoiKhoaBieu->cacTiet();
-
-    taoThongTinTiet();
 }
 
 void CuaSoQuanLi::clickChonKhungChuaThamGia() {
@@ -314,40 +380,6 @@ void CuaSoQuanLi::clickChonKhungDangThamGia() {
     if(m_thamGia->isVisible()) {
         m_thamGia->setVisible(false);
     }
-}
-
-void CuaSoQuanLi::khoiTaoNgayTheoDoi() {
-    QDate ngayThang;
-
-    QString ngayThangTA = ngayThang.currentDate().toString(tr("ddd, ngày dd tháng MM năm yyyy"));
-    QString ngayThangTV;
-
-    if(ngayThangTA.left(3) == tr("Mon"))
-    {
-        ngayThangTV += tr("Thứ hai, ");
-    }
-    else if (ngayThangTA.left(3) == tr("Tue")) {
-        ngayThangTV += tr("Thứ ba, ");
-    }
-    else if (ngayThangTA.left(3) == tr("Wed")) {
-        ngayThangTV += tr("Thứ tư, ");
-    }
-    else if (ngayThangTA.left(3) == tr("Thu")) {
-        ngayThangTV += tr("Thứ năm, ");
-    }
-    else if (ngayThangTA.left(3) == tr("Fri")) {
-        ngayThangTV += tr("Thứ sáu, ");
-    }
-    else if (ngayThangTA.left(3) == tr("Sat")) {
-        ngayThangTV += tr("Thứ bảy, ");
-    }
-    else if (ngayThangTA.left(3) == tr("Sun")) {
-        ngayThangTV += tr("Chủ nhật, ");
-    }
-
-    ngayThangTV += ngayThangTA.right(ngayThangTA.size() - 5);
-
-    m_noiDung = ngayThangTV + "\n";
 }
 
 void CuaSoQuanLi::thongTinUngDung() {

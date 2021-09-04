@@ -28,9 +28,15 @@ private:
     void khoiTaoThanhDanhMuc();
     void khoiTaoThanhCongCu();
     void khoiTaoThanhTrangThai();
+	
+	//Phương thức  đọc thông tin thành viên
     void layThongTinDanhSach();
-    void khoiTaoNgayTheoDoi();
-    void taoThongTinTiet();
+
+	//Các phương thức tạo thông tin
+    QString taoNgayTheoDoi();
+    QString taoThongTinTiet() ;
+    QString taoThongTinThamGia();
+    QString taoThongTinCacThanhVien();
 
     //Các Action của menu tệp
     QAction *m_xemTruoc;
@@ -43,15 +49,20 @@ private:
     QAction *m_veUngDung;
     QAction *m_veQt;
 
+    //Các thuộc tính lưu thông tin để xuất ra file
     __int8 m_vang;
     __int8 m_gianDoan;
 
-    QList<QString> m_danhSachThamGia;
-    QList<QString> m_danhSachChuaThamGia;
-    QList<QString> m_danhSachGianDoan;
+    QList<QString> m_danhSachThamGia; //Danh sách chứa các thành viên đang tham gia làm thông tin cho mô hình
+    QList<QString> m_danhSachChuaThamGia; //Danh sách chứa các thành viên chưa tham gia làm thông tin cho mô hình
+    QList<QString> m_danhSachGianDoan; //Danh sách chứa các thành viên tham gia gián đoạn
+    QList<QString> m_danhSachVang; //Danh sách chứa các thành viên vắng
+	
+	//Thông tin chung về tổ
+	QList<QString> m_danhSachThanhVien; //Danh sách chứa toàn bộ thành viên trong tổ
+	__int8 m_soThanhVien; //Chứa số thành viên
 
-    QList<QString> m_cacTiet;
-
+    //Các mô hình và khung nhìn
     QStringListModel *m_moHinhNguoiDungDangThamGia; //Lưu trữ mô hình người dùng đang tham gia
     QListView *m_khungNhinNguoiDungDangThamGia; //Khung nhìn người dùng đang tham gia
 

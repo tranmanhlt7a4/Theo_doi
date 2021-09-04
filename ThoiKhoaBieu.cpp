@@ -18,8 +18,8 @@ QList<QString> CuaSoThoiKhoaBieu::cacTiet() const {
     return m_cacTiet;
 }
 
-int CuaSoThoiKhoaBieu::doDai() const {
-    return m_doDai;
+QString CuaSoThoiKhoaBieu::to() const {
+    return m_to->currentText();
 }
 
 void CuaSoThoiKhoaBieu::anNutLuu() {
@@ -74,11 +74,6 @@ void CuaSoThoiKhoaBieu::anNutLuu() {
      }
 
      QMessageBox::information(this, tr("Thông báo"), tr("Đã lưu thời khóa biểu!\n Số tiết: %n", "", m_cacTiet.size()));
-
-     //Cập nhật độ dài
-     for(int i = 0; i < m_cacTiet.size(); i++) {
-         m_doDai += m_cacTiet[i].size() + 9;
-     }
 }
 
 void CuaSoThoiKhoaBieu::coThayDoi() {

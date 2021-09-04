@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>486</width>
-    <height>366</height>
+    <width>538</width>
+    <height>399</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -165,6 +165,85 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="m_tiet2">
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Anh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Toán</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Lí</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Địa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sử</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sinh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Hóa</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Quốc phòng</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GDCD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Văn</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Nhật</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Công nghệ</string>
+          </property>
+         </item>
+        </widget>
+       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
@@ -258,85 +337,6 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="m_tiet2">
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Anh</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>TD</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Tin</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Toán</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Lí</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Địa</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Sử</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Sinh</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Hóa</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Quốc phòng</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>GDCD</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Văn</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Nhật</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Công nghệ</string>
-          </property>
-         </item>
-        </widget>
-       </item>
        <item row="3" column="1">
         <widget class="QComboBox" name="m_tiet4">
          <item>
@@ -416,13 +416,6 @@
          </item>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Tiết 5</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="1">
         <widget class="QComboBox" name="m_tiet5">
          <item>
@@ -500,6 +493,44 @@
            <string>Công nghệ</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Tổ</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="m_to">
+         <item>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>4</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Tiết 5</string>
+         </property>
         </widget>
        </item>
       </layout>
