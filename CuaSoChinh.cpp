@@ -14,6 +14,8 @@ CuaSoQuanLi::CuaSoQuanLi() : QMainWindow(nullptr) {
 
     suaThoiKhoaBieu();
 
+    m_batDau = false;
+
     setWindowIcon(QIcon(":/icons/icons/User.png"));
     setWindowTitle(tr("Trình theo dõi"));
     setMinimumSize(500, 300);
@@ -61,19 +63,35 @@ void CuaSoQuanLi::khoiTaoGiaoDien() {
         lopSapXepCacNut->addWidget(m_roiKhoi);
         lopSapXepCacNut->setAlignment(Qt::AlignCenter);
 
+    m_batDauKetThucTietHoc = new QPushButton(tr("Bắt đầu tiết 1"));
+        m_batDauKetThucTietHoc->setIcon(QIcon(":/icons/icons/StartButton.ico"));
+        m_batDauKetThucTietHoc->setCursor(Qt::PointingHandCursor);
+
+    m_datLai = new QPushButton(tr("Đặt lại"));
+        m_datLai->setIcon(QIcon(":/icons/icons/ResetButton.ico"));
+        m_datLai->setCursor(Qt::PointingHandCursor);
+        m_datLai->setVisible(false);
+
+    QHBoxLayout *lopNutCacTiet = new QHBoxLayout();
+        lopNutCacTiet->addWidget(m_batDauKetThucTietHoc);
+        lopNutCacTiet->addWidget(m_datLai);
+        lopNutCacTiet->setAlignment(Qt::AlignRight);
+
     QVBoxLayout *lopChinh = new QVBoxLayout();
         lopChinh->addWidget(nhanDanhSachThamGia);
         lopChinh->addWidget(m_khungNhinNguoiDungDangThamGia);
         lopChinh->addLayout(lopSapXepCacNut);
         lopChinh->addWidget(nhanDanhSachChuaThamGia);
         lopChinh->addWidget(m_khungNhinNguoiDungChuaThamGia);
-
+        lopChinh->addLayout(lopNutCacTiet);
 
     QWidget *giaoDien = new QWidget;
     giaoDien->setLayout(lopChinh);
 
     setCentralWidget(giaoDien);
 
+    connect(m_batDauKetThucTietHoc, SIGNAL(clicked()), this, SLOT(anNutTietHoc()));
+    connect(m_datLai, SIGNAL(clicked()), this, SLOT(datLai()));
     connect(m_thamGia, SIGNAL(clicked()), this, SLOT(anNutThamGia()));
     connect(m_roiKhoi, SIGNAL(clicked()), this, SLOT(anNutRoiKhoi()));
     connect(m_khungNhinNguoiDungDangThamGia, SIGNAL(clicked(const QModelIndex &)), this, SLOT(clickChonKhungDangThamGia()));
@@ -101,14 +119,14 @@ void CuaSoQuanLi::khoiTaoThanhDanhMuc() {
 
 
     //Action menu chức năng
-    QAction *suaThoiKhoaBieu = new QAction(tr("Sửa thời khóa biểu"));
-        suaThoiKhoaBieu->setIcon(QIcon(":/icons/icons/Timetable.ico"));
+    m_suaThoiKhoaBieu = new QAction(tr("Sửa thời khóa biểu"));
+        m_suaThoiKhoaBieu->setIcon(QIcon(":/icons/icons/Timetable.ico"));
 
     //Menu Chức năng
     QMenu *menuChucNang = menuBar()->addMenu(tr("Chức năng"));
-        menuChucNang->addAction(suaThoiKhoaBieu);
+        menuChucNang->addAction(m_suaThoiKhoaBieu);
 
-    connect(suaThoiKhoaBieu, SIGNAL(triggered(bool)), this, SLOT(suaThoiKhoaBieu()));
+    connect(m_suaThoiKhoaBieu, SIGNAL(triggered(bool)), this, SLOT(suaThoiKhoaBieu()));
 
     //Action menu trợ giúp
     m_veUngDung = new QAction(tr("Về ứng dụng"));
@@ -257,6 +275,10 @@ QString CuaSoQuanLi::taoThongTinCacThanhVien() {
 	return thongTinThanhVien;
 }
 
+QString CuaSoQuanLi::taoThongTinQuaTrinhHoc() {
+    return
+}
+
 //Các slot
 void CuaSoQuanLi::anNutThamGia() {
 
@@ -363,6 +385,11 @@ void CuaSoQuanLi::suaThoiKhoaBieu() {
 }
 
 void CuaSoQuanLi::clickChonKhungChuaThamGia() {
+    //Nếu chưa bắt đầu thì không thực hiện
+    if(!m_batDau) {
+        return;
+    }
+
     if(m_roiKhoi->isVisible()) {
         m_roiKhoi->setVisible(false);
     }
@@ -373,6 +400,11 @@ void CuaSoQuanLi::clickChonKhungChuaThamGia() {
 }
 
 void CuaSoQuanLi::clickChonKhungDangThamGia() {
+    //Nếu chưa bắt đầu thì không thực hiện
+    if(!m_batDau) {
+        return;
+    }
+
     if(!m_roiKhoi->isVisible()) {
         m_roiKhoi->setVisible(true);
     }
@@ -385,7 +417,93 @@ void CuaSoQuanLi::clickChonKhungDangThamGia() {
 void CuaSoQuanLi::thongTinUngDung() {
     QString thongTin = tr("Ứng dụng theo dõi việc tham gia học trực tuyến của học sinh!");
     thongTin += tr("<br>Được hoàn thành ngày dd tháng mm năm yyyy");
-    thongTin += tr("<br>Mã nguồn dự án có thể được tải về miễn phí <a href=\"https://github.com/tranmanhlt7a4/Theo_doi\">tại đây</a>.");
+    thongTin += tr("<br>Mã nguồn dự án <a href=\"https://github.com/tranmanhlt7a4/Theo_doi\">tại đây</a>.");
     QMessageBox::information(this, tr("Về ứng dụng này"), thongTin);
 }
 
+void CuaSoQuanLi::canhBao() {
+    QMessageBox::warning(this, tr("Cảnh báo"), tr("Không thể chỉnh sửa thời khóa biểu khi tiết học đã bắt đầu!<br><b>Lưu ý:</b> Nếu muốn chỉnh sửa thời khóa biểu vui lòng chọn nút Đặt lại!"));
+    return;
+}
+
+void CuaSoQuanLi::anNutTietHoc() {
+
+    //Kiểm tra nếu là lần đầu
+    if(m_batDauKetThucTietHoc->text() == tr("Bắt đầu tiết 1")) {
+        //Kiểm tra xem đã đặt thời khóa biểu chưa
+        if(m_cuaSoThoiKhoaBieu->cacTiet().isEmpty()) {
+            QMessageBox::information(this, tr("Thông báo"), tr("Bạn chưa đặt thời khóa biểu"));
+            return;
+        }
+
+        //Nếu không thì bắt đầu
+        m_batDauKetThucTietHoc->setText(tr("Kết thúc tiết 1"));
+        m_batDauKetThucTietHoc->setIcon(QIcon(":/icons/icons/Stop_1.ico"));
+        m_batDauKetThucTietHoc->setCursor(Qt::PointingHandCursor);
+        m_batDau = true;
+        m_datLai->setVisible(true);
+
+        statusBar()->showMessage(tr("Bắt đầu theo dõi"));
+
+        //Ngắt kết nối sửa thời khóa biểu
+        disconnect(m_suaThoiKhoaBieu, SIGNAL(triggered(bool)), this, SLOT(suaThoiKhoaBieu()));
+        connect(m_suaThoiKhoaBieu, SIGNAL(triggered(bool)), this, SLOT(canhBao()));
+
+        return;
+    }
+
+    static int tiet = 1;
+
+    if(m_batDauKetThucTietHoc->text() == tr("Kết thúc tiết 1")) {
+
+        //Lưu lại thông tin tiết học vừa rồi
+        m_thongTinCacTiet << taoThongTinTiet();
+
+        statusBar()->showMessage(tr("Đã lưu bản theo dõi tiết 1"));
+
+        //Nếu có tiết tiếp theo
+        if(m_cuaSoThoiKhoaBieu->cacTiet().size() > tiet) {
+            tiet++;
+            m_batDauKetThucTietHoc->setText(tr("Bắt đầu tiết %1").arg(tiet));
+            m_batDauKetThucTietHoc->setIcon(QIcon(":/icons/icons/StartButton.ico"));
+            m_batDauKetThucTietHoc->setCursor(Qt::PointingHandCursor);
+            return;
+        }
+        else {
+            m_batDauKetThucTietHoc->setVisible(false);
+            statusBar()->showMessage(tr("Đã hết tiết học hôm nay"));
+            return;
+        }
+    }
+
+    if(m_batDauKetThucTietHoc->text() == tr("Bắt đầu tiết %1").arg(tiet)) {
+        m_batDauKetThucTietHoc->setText(tr("Kết thúc tiết %1").arg(tiet));
+        m_batDauKetThucTietHoc->setIcon(QIcon(":/icons/icons/Stop_1.ico"));
+        m_batDauKetThucTietHoc->setCursor(Qt::PointingHandCursor);
+
+        statusBar()->showMessage(tr("Bắt đầu theo dõi"));
+        return;
+    }
+
+    if(m_batDauKetThucTietHoc->text() == tr("Kết thúc tiết %1").arg(tiet)) {
+
+        //Lưu lại thông tin tiết học vừa rồi
+        m_thongTinCacTiet << taoThongTinTiet();
+
+        statusBar()->showMessage(tr("Đã lưu bản theo dõi tiết %1").arg(tiet));
+
+        //Nếu có tiết tiếp theo
+        if(m_cuaSoThoiKhoaBieu->cacTiet().size() > tiet) {
+            tiet++;
+            m_batDauKetThucTietHoc->setText(tr("Bắt đầu tiết %1").arg(tiet));
+            m_batDauKetThucTietHoc->setIcon(QIcon(":/icons/icons/StartButton.ico"));
+            m_batDauKetThucTietHoc->setCursor(Qt::PointingHandCursor);
+            return;
+        }
+        else {
+            m_batDauKetThucTietHoc->setVisible(false);
+            statusBar()->showMessage(tr("Đã hết tiết học hôm nay"));
+            return;
+        }
+    }
+}

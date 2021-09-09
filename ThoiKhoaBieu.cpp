@@ -3,7 +3,13 @@
 CuaSoThoiKhoaBieu::CuaSoThoiKhoaBieu(QWidget* cuaSoMe) : QDialog(cuaSoMe) {
     setupUi(this);
 
-    m_daLuu = false;
+    m_daLuu = true;
+
+    m_luu->setIcon(QIcon(":/icons/icons/Save.ico"));
+    m_thoat->setIcon(QIcon(":/icons/icons/Quit_v1.ico"));
+    m_nhanHinh->setPixmap(QPixmap(":/icons/icons/Timetable.ico"));
+
+    setWindowIcon(QIcon(":/icons/icons/Timetable.ico"));
 
     connect(m_luu, SIGNAL(clicked()), this, SLOT(anNutLuu()));
     connect(m_thoat, SIGNAL(clicked()), this, SLOT(anNutThoat()));
@@ -73,7 +79,7 @@ void CuaSoThoiKhoaBieu::anNutLuu() {
          return;
      }
 
-     QMessageBox::information(this, tr("Thông báo"), tr("Đã lưu thời khóa biểu!\n Số tiết: %n", "", m_cacTiet.size()));
+     QMessageBox::information(this, tr("Thông báo"), tr("Đã lưu thời khóa biểu!\nSố tiết: %n", "", m_cacTiet.size()));
 }
 
 void CuaSoThoiKhoaBieu::coThayDoi() {

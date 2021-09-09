@@ -23,6 +23,10 @@ private slots:
     void suaThoiKhoaBieu();
     void thongTinUngDung();
 
+    void canhBao(); //Slot hiện thông báo khi định chỉnh sửa tkb khi tiết học đã bắt đầu
+
+    void anNutTietHoc(); //Slot xử lí sự kiện ấn nút tiết học
+
 private:
     void khoiTaoGiaoDien();
     void khoiTaoThanhDanhMuc();
@@ -37,13 +41,14 @@ private:
     QString taoThongTinTiet() ;
     QString taoThongTinThamGia();
     QString taoThongTinCacThanhVien();
+    QString taoThongTinQuaTrinhHoc();
 
     //Các Action của menu tệp
     QAction *m_xemTruoc;
     QAction *m_xuatTep;
 
     //Các Action của menu chức năng
-    QAction *m_tietHoc;
+    QAction *m_suaThoiKhoaBieu;
 
     //Các Action của menu trợ giúp
     QAction *m_veUngDung;
@@ -73,6 +78,12 @@ private:
 
     QPushButton *m_roiKhoi; //Nút chọn khi ai đó thoát
     QPushButton *m_thamGia; //Nút chọn khi có người tham gia
+
+    //Tiết học
+    bool m_batDau;
+    QPushButton *m_batDauKetThucTietHoc; //Nút chọn khi tiết học bắt đầu, kết thúc
+    QPushButton *m_datLai; //Đặt lại toàn bộ thông tin ghi lại từ đầu
+    QList<QString> m_thongTinCacTiet; //Lưu thông tin các tiết học
 
     //Các cửa sổ
     CuaSoThoiKhoaBieu *m_cuaSoThoiKhoaBieu;

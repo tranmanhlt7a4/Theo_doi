@@ -16,5 +16,8 @@
 		<file>icons/Timetable.ico</file>
 		<file>icons/Quit_v1.ico</file>
 		<file>icons/Save.ico</file>
+		<file>icons/StartButton.ico</file>
+		<file>icons/Stop_1.ico</file>
+		<file>icons/ResetButton.ico</file>
 	</qresource>
 </RCC>
